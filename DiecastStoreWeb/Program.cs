@@ -1,7 +1,15 @@
+using DiecastStoreWeb.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+DotNetEnv.Env.Load();
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+builder.Services.AddDbContext<DiecastStoreDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
