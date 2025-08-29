@@ -1,5 +1,5 @@
-﻿using DiecastStoreWeb.Data;
-using DiecastStoreWeb.Models;
+﻿using DiecastStore.DataAccess.Data;
+using DiecastStore.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiecastStoreWeb.Controllers

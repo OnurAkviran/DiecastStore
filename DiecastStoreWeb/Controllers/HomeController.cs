@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using DiecastStoreWeb.Models;
+using DiecastStore.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiecastStoreWeb.Controllers

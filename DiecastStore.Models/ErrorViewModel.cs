@@ -1,4 +1,4 @@
-namespace DiecastStoreWeb.Models
+namespace DiecastStore.Models
 {
     public class ErrorViewModel
     {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace DiecastStoreWeb.Models
+namespace DiecastStore.Models
 {
     public class CarBrand
     {
