@@ -1,5 +1,4 @@
 ﻿@model List<CarBrand>
-
 <div class="container">
     <div class="row pt-4 pb-3">
         <div class="col-6">
@@ -33,10 +32,10 @@
                     <td>@brand.DisplayOrder</td>
                     <td>
                         <div class="w-75 btn-group" role="group">
-                            <a asp-controller="CarBrand" asp-action="Edit" class="btn btn-primary mx-2">
+                            <a asp-controller="CarBrand" asp-action="Edit" asp-route-id="@brand.Id" class="btn btn-primary mx-2">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
-                            <a asp-controller="CarBrand" asp-action="Delete" class="btn btn-danger mx-2">
+                            <a asp-controller="CarBrand" asp-action="Delete" asp-route-id="@brand.Id" class="btn btn-danger mx-2">
                                 <i class="bi bi-trash-fill"></i> Delete
                             </a>
                         </div>
