@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace DiecastStoreWeb.Migrations
+namespace DiecastStore.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class AddCarBrandsTable : Migration

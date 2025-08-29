@@ -1,4 +1,4 @@
-using DiecastStoreWeb.Data;
+using DiecastStore.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

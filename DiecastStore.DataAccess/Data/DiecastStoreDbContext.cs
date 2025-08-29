@@ -1,7 +1,7 @@
-﻿using DiecastStoreWeb.Models;
+﻿using DiecastStore.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DiecastStoreWeb.Data
+namespace DiecastStore.DataAccess.Data
 {
     public class DiecastStoreDbContext : DbContext
     {

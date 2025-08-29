@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DiecastStoreWeb.Migrations
+namespace DiecastStore.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class SeedCarBrandTable : Migration
