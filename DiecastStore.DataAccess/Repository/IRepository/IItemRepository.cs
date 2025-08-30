@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiecastStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace DiecastStore.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork
+    public interface IItemRepository : IRepository<Item>
     {
-        ICarBrandRepository CarBrand { get; }
-        IItemRepository Item { get; }
-
-        void Save();
+        void Update(Item item);
     }
 }

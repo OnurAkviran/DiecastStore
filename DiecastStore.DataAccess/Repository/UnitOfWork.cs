@@ -12,6 +12,7 @@ namespace DiecastStore.DataAccess.Repository
     {
         private DiecastStoreDbContext _dbContext;
         public ICarBrandRepository CarBrand { get; private set; }
+        public IItemRepository Item { get; private set; }
         public UnitOfWork(DiecastStoreDbContext db)
         {
             _dbContext = db;
