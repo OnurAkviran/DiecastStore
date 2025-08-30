@@ -1,4 +1,5 @@
 ﻿using DiecastStore.DataAccess.Data;
+using DiecastStore.DataAccess.Repository.IRepository;
 using DiecastStore.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,14 +7,14 @@ namespace DiecastStoreWeb.Controllers
 {
     public class CarBrandController : Controller
     {
-        private readonly DiecastStoreDbContext _dbContext;
-        public CarBrandController(DiecastStoreDbContext db)
+        private readonly IUnitOfWork _unitOfWork;
+        public CarBrandController(IUnitOfWork unitOfWork)
         {
-            _dbContext = db;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<CarBrand> carBrandList = _dbContext.CarBrands.ToList(); 
+            List<CarBrand> carBrandList = _unitOfWork.CarBrand.GetAll().ToList(); 
             return View(carBrandList);
         }
         public IActionResult Create()
@@ -29,8 +30,8 @@ namespace DiecastStoreWeb.Controllers
             }
             if (ModelState.IsValid)
             {
-                _dbContext.CarBrands.Add(brand);
-                _dbContext.SaveChanges();
+                _unitOfWork.CarBrand.Add(brand);
+                _unitOfWork.Save();
                 TempData["success"] = "Brand created succesfully.";
                 return RedirectToAction("Index");
             }
@@ -43,7 +44,7 @@ namespace DiecastStoreWeb.Controllers
                 return NotFound();
             }
 
-            CarBrand? carBrand = _dbContext.CarBrands.Find(id);
+            CarBrand? carBrand = _unitOfWork.CarBrand.GetFirstOrDefault(u => u.Id == id);
             if (carBrand == null)
             {
                 return NotFound();
@@ -55,8 +56,8 @@ namespace DiecastStoreWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                _dbContext.CarBrands.Update(brand);
-                _dbContext.SaveChanges();
+                _unitOfWork.CarBrand.Update(brand);
+                _unitOfWork.Save();
                 TempData["success"] = "Brand updated succesfully.";
                 return RedirectToAction("Index");
             }
@@ -69,7 +70,7 @@ namespace DiecastStoreWeb.Controllers
                 return NotFound();
             }
 
-            CarBrand? carBrand = _dbContext.CarBrands.Find(id);
+            CarBrand? carBrand = _unitOfWork.CarBrand.GetFirstOrDefault(u => u.Id == id);
             if (carBrand == null)
             {
                 return NotFound();
@@ -79,14 +80,14 @@ namespace DiecastStoreWeb.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            CarBrand? carBrand = _dbContext.CarBrands.Find(id);
+            CarBrand? carBrand = _unitOfWork.CarBrand.GetFirstOrDefault(u => u.Id == id);
 
             if (carBrand == null)
             {
                 return NotFound();
             }
-            _dbContext.Remove(carBrand);
-            _dbContext.SaveChanges();
+            _unitOfWork.CarBrand.Remove(carBrand);
+            _unitOfWork.Save();
             TempData["success"] = "Brand deleted succesfully.";
             return RedirectToAction("Index");
         }
