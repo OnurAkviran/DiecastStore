@@ -3,8 +3,9 @@ using DiecastStore.DataAccess.Repository.IRepository;
 using DiecastStore.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DiecastStoreWeb.Controllers
+namespace DiecastStoreWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CarBrandController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
