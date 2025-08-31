@@ -28,9 +28,9 @@ namespace DiecastStore.DataAccess.Data
                 new CarBrand { Id = 10, CarBrandName = "Aston Martin", DisplayOrder = 10 }
                 );
             modelBuilder.Entity<Item>().HasData(
-                new Item { Id = 1, Name = "89' Porsche 944 Turbo", Description = "Mattel Hot Wheels 1989 Porsche 944 Turbo, Porsche Series 3/6 [Black]", Price = 15.99 },
-                new Item { Id = 2, Name = "'89 Mercedes-Benz 560 Sec AMG", Description = "Hot Wheels '89 Mercedes Benz 560 Sec AMG, HW Turbo 4/5 [Black] 150/250", Price = 6.84 },
-                new Item { Id = 3, Name = "Renault Sport R.S. 01'", Description = "Hot Wheels Renault Sport R.S. 01, HW Turbo 3/5 [red] 134/250", Price = 6.29 }
+                new Item { Id = 1, Name = "89' Porsche 944 Turbo", Description = "Mattel Hot Wheels 1989 Porsche 944 Turbo, Porsche Series 3/6 [Black]", Price = 15.99, CarBrandId = 1 },
+                new Item { Id = 2, Name = "'89 Mercedes-Benz 560 Sec AMG", Description = "Hot Wheels '89 Mercedes Benz 560 Sec AMG, HW Turbo 4/5 [Black] 150/250", Price = 6.84, CarBrandId = 2 },
+                new Item { Id = 3, Name = "Renault Sport R.S. 01'", Description = "Hot Wheels Renault Sport R.S. 01, HW Turbo 3/5 [red] 134/250", Price = 6.29 , CarBrandId = 7 }
                 );
         }
     }

@@ -17,6 +17,7 @@ namespace DiecastStore.DataAccess.Repository
         {
             _dbContext = db;
             CarBrand = new CarBrandRepository(_dbContext);
+            Item = new ItemRepository(_dbContext);
         }
 
         public void Save()

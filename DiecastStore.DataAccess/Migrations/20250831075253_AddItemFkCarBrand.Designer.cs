@@ -3,6 +3,7 @@ using DiecastStore.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiecastStore.DataAccess.Migrations
 {
     [DbContext(typeof(DiecastStoreDbContext))]
-    partial class DiecastStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250831075253_AddItemFkCarBrand")]
+    partial class AddItemFkCarBrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,6 +118,9 @@ namespace DiecastStore.DataAccess.Migrations
                     b.Property<int>("CarBrandId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -128,7 +134,7 @@ namespace DiecastStore.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarBrandId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Items");
 
@@ -163,9 +169,7 @@ namespace DiecastStore.DataAccess.Migrations
                 {
                     b.HasOne("DiecastStore.Models.CarBrand", "CarBrand")
                         .WithMany()
-                        .HasForeignKey("CarBrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("CarBrand");
                 });
