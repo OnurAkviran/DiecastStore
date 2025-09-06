@@ -1,6 +1,9 @@
 ﻿using DiecastStore.DataAccess.Repository.IRepository;
 using DiecastStore.Models;
+using DiecastStore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace DiecastStoreWeb.Areas.Admin.Controllers
 {
@@ -19,23 +22,42 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+            ItemViewModel itemViewModel = new()
+            {
+                CarBrandList = _unitOfWork.CarBrand
+                .GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.CarBrandName,
+                    Value = u.Id.ToString()
+                }),
+                Item = new Item()
+            };
+
+            return View(itemViewModel);
         }
         [HttpPost]
-        public IActionResult Create(Item item)
+        public IActionResult Create(ItemViewModel itemViewModel)
         {
-            if (int.TryParse(item.Name, out _))
+            if (int.TryParse(itemViewModel.Item.Name, out _))
             {
                 ModelState.AddModelError("Name", "The item name can't contain only numbers.");
             }
             if (ModelState.IsValid)
             {
-                _unitOfWork.Item.Add(item);
+                _unitOfWork.Item.Add(itemViewModel.Item);
                 _unitOfWork.Save();
                 TempData["success"] = "Item created succesfully.";
                 return RedirectToAction("Index");
+            } else
+            {
+                itemViewModel.CarBrandList = _unitOfWork.CarBrand
+                .GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.CarBrandName,
+                    Value = u.Id.ToString()
+                });
+                return View(itemViewModel);
             }
-            return View(item);
         }
         public IActionResult Edit(int? id)
         {

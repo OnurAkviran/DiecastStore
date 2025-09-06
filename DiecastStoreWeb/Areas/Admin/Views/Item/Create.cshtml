@@ -1,4 +1,4 @@
-﻿@model Item
+﻿@model ItemViewModel
 
 <div class="card shadow border-0 mt-4">
     <div class="card-header bg-primary bg-gradient m-lg-0 py-3">
@@ -12,19 +12,31 @@
         <form method="post" class="row">
             <div class="border p-3">
                 <div class="form-floating py-2 col-12">
-                    <input asp-for="Name" class="form-control border-0 shadow" />
-                    <label asp-for="Name" class="ms-2"></label>
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <input asp-for="Item.Name" class="form-control border-0 shadow" />
+                    <label asp-for="Item.Name" class="ms-2"></label>
+                    <span asp-validation-for="Item.Name" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-2 col-12">
-                    <input asp-for="Description" class="form-control border-0 shadow" />
-                    <label asp-for="Description" class="ms-2"></label>
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                    <input asp-for="Item.Description" class="form-control border-0 shadow" />
+                    <label asp-for="Item.Description" class="ms-2"></label>
+                    <span asp-validation-for="Item.Description" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-2 col-12">
-                    <input asp-for="Price" class="form-control border-0 shadow" />
-                    <label asp-for="Price" class="ms-2"></label>
-                    <span asp-validation-for="Price" class="text-danger"></span>
+                    <select asp-for="Item.CarBrandId" asp-items="@Model.CarBrandList" class="form-select border-0 shadow">
+                        <option disabled selected>--Select Car Brand--</option>
+                    </select>
+                    <label asp-for="Item.CarBrandId" class="ms-2"></label>
+                    <span asp-validation-for="Item.CarBrandId" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Item.Price" class="form-control border-0 shadow" />
+                    <label asp-for="Item.Price" class="ms-2"></label>
+                    <span asp-validation-for="Item.Price" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Item.ImageUrl" class="form-control border-0 shadow" />
+                    <label asp-for="Item.ImageUrl" class="ms-2"></label>
+                    <span asp-validation-for="Item.ImageUrl" class="text-danger"></span>
                 </div>
 
                 <div class="row pt-2">
