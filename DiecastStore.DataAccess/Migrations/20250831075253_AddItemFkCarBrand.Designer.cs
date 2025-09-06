@@ -3,6 +3,7 @@ using DiecastStore.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiecastStore.DataAccess.Migrations
 {
     [DbContext(typeof(DiecastStoreDbContext))]
-    partial class DiecastStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250831075253_AddItemFkCarBrand")]
+    partial class AddItemFkCarBrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,11 +118,10 @@ namespace DiecastStore.DataAccess.Migrations
                     b.Property<int>("CarBrandId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -132,7 +134,7 @@ namespace DiecastStore.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarBrandId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Items");
 
@@ -142,7 +144,6 @@ namespace DiecastStore.DataAccess.Migrations
                             Id = 1,
                             CarBrandId = 1,
                             Description = "Mattel Hot Wheels 1989 Porsche 944 Turbo, Porsche Series 3/6 [Black]",
-                            ImageUrl = "",
                             Name = "89' Porsche 944 Turbo",
                             Price = 15.99
                         },
@@ -151,7 +152,6 @@ namespace DiecastStore.DataAccess.Migrations
                             Id = 2,
                             CarBrandId = 2,
                             Description = "Hot Wheels '89 Mercedes Benz 560 Sec AMG, HW Turbo 4/5 [Black] 150/250",
-                            ImageUrl = "",
                             Name = "'89 Mercedes-Benz 560 Sec AMG",
                             Price = 6.8399999999999999
                         },
@@ -160,7 +160,6 @@ namespace DiecastStore.DataAccess.Migrations
                             Id = 3,
                             CarBrandId = 7,
                             Description = "Hot Wheels Renault Sport R.S. 01, HW Turbo 3/5 [red] 134/250",
-                            ImageUrl = "",
                             Name = "Renault Sport R.S. 01'",
                             Price = 6.29
                         });
@@ -170,9 +169,7 @@ namespace DiecastStore.DataAccess.Migrations
                 {
                     b.HasOne("DiecastStore.Models.CarBrand", "CarBrand")
                         .WithMany()
-                        .HasForeignKey("CarBrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("CarBrand");
                 });
