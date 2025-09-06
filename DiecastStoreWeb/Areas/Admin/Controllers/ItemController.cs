@@ -11,16 +11,18 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
     public class ItemController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ItemController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ItemController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
             List<Item> itemList = _unitOfWork.Item.GetAll().ToList();
             return View(itemList);
         }
-        public IActionResult Create()
+        public IActionResult InsertUpdate(int? id)
         {
             ItemViewModel itemViewModel = new()
             {
@@ -32,11 +34,14 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
                 }),
                 Item = new Item()
             };
-
+            if (!(id == null || id == 0))
+            {
+                itemViewModel.Item = _unitOfWork.Item.GetFirstOrDefault(u => u.Id == id);//6.47
+            }
             return View(itemViewModel);
         }
         [HttpPost]
-        public IActionResult Create(ItemViewModel itemViewModel)
+        public IActionResult InsertUpdate(ItemViewModel itemViewModel, IFormFile? file)
         {
             if (int.TryParse(itemViewModel.Item.Name, out _))
             {
@@ -44,6 +49,19 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if(file != null)
+                {
+                    string fileName = itemViewModel.Item.CarBrand + itemViewModel.Item.Id.ToString() + Path.GetExtension(file.FileName);
+                    string itemPath = Path.Combine(wwwRootPath, @"images\product");
+
+                    using (var fileStream = new FileStream(Path.Combine(itemPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    itemViewModel.Item.ImageUrl = @"\images\item\" + fileName;
+                }
+
                 _unitOfWork.Item.Add(itemViewModel.Item);
                 _unitOfWork.Save();
                 TempData["success"] = "Item created succesfully.";
@@ -58,32 +76,6 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
                 });
                 return View(itemViewModel);
             }
-        }
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            Item? item = _unitOfWork.Item.GetFirstOrDefault(u => u.Id == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return View(item);
-        }
-        [HttpPost]
-        public IActionResult Edit(Item item)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Item.Update(item);
-                _unitOfWork.Save();
-                TempData["success"] = "Item updated succesfully.";
-                return RedirectToAction("Index");
-            }
-            return View(item);
         }
         public IActionResult Delete(int? id)
         {

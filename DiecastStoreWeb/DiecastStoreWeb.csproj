@@ -21,4 +21,8 @@
     <ProjectReference Include="..\DiecastStore.DataAccess\DiecastStore.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\item\" />
+  </ItemGroup>
+
 </Project>
