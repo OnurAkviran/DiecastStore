@@ -52,8 +52,8 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 if(file != null)
                 {
-                    string fileName = itemViewModel.Item.CarBrand + itemViewModel.Item.Id.ToString() + Path.GetExtension(file.FileName);
-                    string itemPath = Path.Combine(wwwRootPath, @"images\product");
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string itemPath = Path.Combine(wwwRootPath, @"images\media");
 
                     using (var fileStream = new FileStream(Path.Combine(itemPath, fileName), FileMode.Create))
                     {
