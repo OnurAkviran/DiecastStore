@@ -19,7 +19,7 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Item> itemList = _unitOfWork.Item.GetAll().ToList();
+            List<Item> itemList = _unitOfWork.Item.GetAll(i => i.CarBrand).ToList();
             return View(itemList);
         }
         public IActionResult InsertUpdate(int? id)
@@ -55,14 +55,32 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string itemPath = Path.Combine(wwwRootPath, @"images\media");
 
+                    if(!string.IsNullOrEmpty(itemViewModel.Item.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, itemViewModel.Item.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
                     using (var fileStream = new FileStream(Path.Combine(itemPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
-                    itemViewModel.Item.ImageUrl = @"\images\item\" + fileName;
+                    itemViewModel.Item.ImageUrl = @"\images\media\" + fileName;
                 }
 
-                _unitOfWork.Item.Add(itemViewModel.Item);
+                if(itemViewModel.Item.Id !=0)
+                {
+                    _unitOfWork.Item.Update(itemViewModel.Item);
+                }
+                else
+                {
+                    _unitOfWork.Item.Add(itemViewModel.Item);
+                }
+
                 _unitOfWork.Save();
                 TempData["success"] = "Item created succesfully.";
                 return RedirectToAction("Index");
