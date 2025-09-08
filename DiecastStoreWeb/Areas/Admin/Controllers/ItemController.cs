@@ -123,5 +123,12 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
             TempData["success"] = "Item deleted succesfully.";
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Item> itemList = _unitOfWork.Item.GetAll(i => i.CarBrand).ToList();
+            return Json(new { data = itemList });
+        }
     }
 }
