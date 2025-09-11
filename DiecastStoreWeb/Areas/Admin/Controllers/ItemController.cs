@@ -95,40 +95,34 @@ namespace DiecastStoreWeb.Areas.Admin.Controllers
                 return View(itemViewModel);
             }
         }
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            Item?  item = _unitOfWork.Item.GetFirstOrDefault(u => u.Id == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return View(item);
-        }
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
-        {
-            Item? item = _unitOfWork.Item.GetFirstOrDefault(u => u.Id == id);
-
-            if (item == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.Item.Remove(item);
-            _unitOfWork.Save();
-            TempData["success"] = "Item deleted succesfully.";
-            return RedirectToAction("Index");
-        }
 
         [HttpGet]
         public IActionResult GetAll()
         {
             List<Item> itemList = _unitOfWork.Item.GetAll(i => i.CarBrand).ToList();
             return Json(new { data = itemList });
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            Item? item = _unitOfWork.Item.GetFirstOrDefault(u => u.Id == id);
+            if (item == null)
+            {
+                return Json(new { success = false, message = "Unable to delete item." });
+            }
+
+            var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, item.ImageUrl.TrimStart('\\'));
+
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+
+            _unitOfWork.Item.Remove(item);
+            _unitOfWork.Save();
+            List<Item> itemList = _unitOfWork.Item.GetAll(i => i.CarBrand).ToList();
+            return Json(new { success = true, message = "Item deleted successfully." });
         }
     }
 }
