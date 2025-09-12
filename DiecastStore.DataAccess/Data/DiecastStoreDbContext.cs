@@ -1,9 +1,11 @@
 ﻿using DiecastStore.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiecastStore.DataAccess.Data
 {
-    public class DiecastStoreDbContext : DbContext
+    public class DiecastStoreDbContext : IdentityDbContext<IdentityUser>
     {
         public DiecastStoreDbContext(DbContextOptions<DiecastStoreDbContext> options) : base(options)
         {
@@ -12,9 +14,12 @@ namespace DiecastStore.DataAccess.Data
 
         public DbSet<CarBrand> CarBrands { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<CarBrand>().HasData(
                 new CarBrand { Id = 1, CarBrandName = "Porsche", DisplayOrder = 1 },
                 new CarBrand { Id = 2, CarBrandName = "Mercedes-Benz", DisplayOrder = 2 },

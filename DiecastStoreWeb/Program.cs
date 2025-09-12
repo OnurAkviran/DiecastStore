@@ -2,8 +2,10 @@ using DiecastStore.DataAccess.Data;
 using DiecastStore.DataAccess.Repository;
 using DiecastStore.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+//var connectionString = builder.Configuration.GetConnectionString("DiecastStoreDbContextConnection") ?? throw new InvalidOperationException("Connection string 'DiecastStoreDbContextConnection' not found.");;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -13,6 +15,8 @@ var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 builder.Services.AddDbContext<DiecastStoreDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<DiecastStoreDbContext>();
+builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
@@ -28,7 +32,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapStaticAssets();
 
