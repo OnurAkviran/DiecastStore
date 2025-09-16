@@ -1,6 +1,8 @@
 ﻿using DiecastStore.DataAccess.Repository.IRepository;
 using DiecastStore.Models;
 using DiecastStore.Models.ViewModels;
+using DiecastStore.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using System.Collections.Generic;
 namespace DiecastStoreWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticDetails.RoleAdmin)]
     public class ItemController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
