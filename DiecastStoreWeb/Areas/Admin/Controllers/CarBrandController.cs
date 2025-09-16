@@ -1,11 +1,14 @@
 ﻿using DiecastStore.DataAccess.Data;
 using DiecastStore.DataAccess.Repository.IRepository;
 using DiecastStore.Models;
+using DiecastStore.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiecastStoreWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = StaticDetails.RoleAdmin)]
     public class CarBrandController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
